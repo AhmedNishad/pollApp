@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <title>Poll App</title>
+        <link rel="stylesheet" type='text/css' href="/styles/main.css">
+        <style>
+            
+        </style>    
+    </head>
+    <body>
+        <div class='container'>
+        <div class='branding'>
+            <h2>Vote for things!</h2>
+            <hr>
+        </div>
+        <div class='poll-form'>
+            <h3>Add a new Poll</h3>
+            <form method='POST' action=''>
+                <label for="poll_name">Poll Name</label>
+                <input type='text' name='poll_name' required>
+                <br>
+                <label for="poll_1">This:</label>
+                <input type='text' name='poll_1' required>
+                <br>
+                <label for="poll_1">Vs This:</label>
+                <input type='text' name='poll_2' required>
+                <br>
+                <label for='poll_description'>Description</label>
+                <br>
+                <textarea ></textarea>
+                <br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+            <h5 class='errors'> <%= errors%></h5>
+        <div id="posts">
+                <% for(let i =0; i<polls.length; i++){%>
+                <div class='post'>
+                    <h3><a href=polls/<%= polls[i].id %> >Poll: <%= polls[i].poll_name%></a> </h3>
+                    <a href=polls/<%= polls[i].id %>/vote?vote=1&&vote_count=<%= polls[i].poll_1_votes%> > <%= polls[i].poll_1%> </a>
+                    <span><%= polls[i].poll_1_votes%></span>
+                    <a href=polls/<%= polls[i].id %>/vote?vote=2&&vote_count=<%= polls[i].poll_2_votes%> > <%= polls[i].poll_2 %></a>
+                    <span><%= polls[i].poll_2_votes%></span>
+                </div>
+                <% }%>
+                
+                <div class='offset'>
+                    <a href=/polls?offset=<%= offset%>>Next</a>
+                    <h4><%= offset%></h4>
+                    <% if(offset!= 1){%>
+                        <a href=/polls?offset=<%= (offset-2)%>>Back</a>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="./js/polls_controller.js"></script>
+</html>
