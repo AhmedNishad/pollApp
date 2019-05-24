@@ -2,10 +2,10 @@ const mysql = require('mysql')
 
 let pollPool = mysql.createPool({
     connectionLimit: 100,
-    host: 'localhost',
-    user: 'root',
-    password:'123456',
-    database: 'nodemysql',
+    host: 'sql12.freemysqlhosting.net',
+    user: 'sql12293079',
+    password:'czXF5H5cY5',
+    database: 'sql12293079',
     debug: false
 })
 
