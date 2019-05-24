@@ -114,3 +114,20 @@ a{
 #post-description{
     padding: 3rem;
 }
+
+@media only screen and (max-width: 1100px){
+    .poll-form{
+        flex-basis: 80%;
+    }
+    #posts{
+        flex-basis: 70%;
+        margin: auto;
+    }
+    .post{
+        width: 90%;
+    }
+    .container{
+        height: fit-content;
+        font-size: 1.1rem;
+    }
+}
