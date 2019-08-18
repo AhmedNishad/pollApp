@@ -6,7 +6,7 @@
     flex-wrap: wrap;
     background: #D0C4DF;
     font-family: 'Merriweather', seriff;
-    height: 100%;
+    height: fit-content;
     overflow: hidden;
 }
 
@@ -16,7 +16,7 @@
 }
 
 .poll-form{
-    flex-basis: 30%;
+    flex-basis: 40%;
     padding: 2rem 3rem;
 }
 
@@ -120,7 +120,7 @@ a{
         flex-basis: 80%;
     }
     #posts{
-        flex-basis: 70%;
+        flex-basis: 90%;
         margin: auto;
     }
     .post{

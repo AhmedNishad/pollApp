@@ -26,7 +26,7 @@
                 <br>
                 <label for='poll_description'>Description</label>
                 <br>
-                <textarea ></textarea>
+                <textarea name='poll_description'></textarea>
                 <br>
                 <button type="submit">Submit</button>
             </form>
@@ -44,10 +44,13 @@
                 <% }%>
                 
                 <div class='offset'>
-                    <a href=/polls?offset=<%= offset%>>Next</a>
+                <% if(!end){%>
+                    <a href=/polls?offset=<%= offset+1%>>Next</a>
+                <%}%>
+                    
                     <h4><%= offset%></h4>
-                    <% if(offset!= 1){%>
-                        <a href=/polls?offset=<%= (offset-2)%>>Back</a>
+                    <% if(offset!= 0){%>
+                        <a href=/polls?offset=<%= (offset-1)%>>Back</a>
                     <%}%>
                 </div>
             </div>

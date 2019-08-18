@@ -15,20 +15,37 @@ router.get('/', (req,res)=>{
         req.session.errors = ''
     }
     
-    db.query('SELECT * FROM polls ORDER BY date_created', (err,polls)=>{
-        
-        let offsettedPolls =  polls.slice(parseInt(req.query.offset,10)*5,parseInt(req.query.offset,10)*5 + 5)
-        let defaultOffset = parseInt(req.query.offset,10) + 1
-        if(parseInt(req.query.offset,10)*5 + 5 > polls.length){
-            req.session.errors='End of Polls!'
-            defaultOffset = 1;
+    db.query('SELECT * FROM polls ORDER BY data_created ASC', (err,polls)=>{
+        let endBool = false;
+        let defaultOffset = parseInt(req.query.offset,10); 
+        if(!polls){
+            console.log('No polls exist')
+            res.render('index', {polls: [],errors:'There are no polls as of yet', offset:1});
+        }else{
+            let offsettedPolls = []
+            if(defaultOffset == 0){
+                offsettedPolls =  polls.slice(0,5)
+            }else{
+                offsettedPolls =  polls.slice(parseInt(req.query.offset,10)*5,parseInt(req.query.offset,10)*5 + 5)
+            }
+            //let defaultOffset = parseInt(req.query.offset,10) + 1
+            
+            if(parseInt(req.query.offset,10)*5 + 5 > polls.length){
+                req.session.errors='End of Polls!'
+                defaultOffset = parseInt(req.query.offset,10)
+                endBool = true
+                console.log(defaultOffset)
+            }
+            /* if(defaultOffset<0){
+                defaultOffset = 1
+            } */
+                res.render('index', {polls: offsettedPolls,offset: defaultOffset, errors:req.session.errors, end:endBool});
+            
+            req.session.errors = ''
+            req.session.save(err=>{
+                if(err) throw(err)
+            })
         }
-            res.render('index', {polls: offsettedPolls,offset: defaultOffset, errors:req.session.errors});
-        
-        req.session.errors = ''
-        req.session.save(err=>{
-            if(err) throw(err)
-        })
     })
 })
 
@@ -37,7 +54,8 @@ router.get('/', (req,res)=>{
 router.post('/', [
     sanitizeBody('*').trim().escape(),
     (req,res,next)=>{
-        let query = `INSERT INTO polls (poll_name ,poll_1 ,poll_2, poll_description, date_created) 
+        console.log(req.body)
+        let query = `INSERT INTO polls (poll_name ,poll_1 ,poll_2, poll_description, data_created) 
         VALUES('${req.body.poll_name}','${req.body.poll_1}','${req.body.poll_2}','${req.body.poll_description}',curdate())`
         db.query(query, (err, success)=>{
             if(err) throw(err)
@@ -49,6 +67,7 @@ router.post('/', [
 router.get('/:id', (req,res)=>{
     let query = `SELECT * FROM polls WHERE id=${req.params.id}`;
     db.query(query, (err, polls)=>{
+        console.log(polls[0])
         return res.render('poll', {poll: polls[0], errors:req.session.errors})
     })
 })

@@ -13,7 +13,7 @@ app.use(session({
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname,'/components')));
+app.use(express.static(__dirname + '/components'))
 app.set('views', path.join(__dirname,'/views'));
 app.set('view engine', 'ejs');
 app.use(express.json())
@@ -22,9 +22,9 @@ app.use(express.json())
 app.use('/polls', require('./routes/polls'))
 
 app.get('/', (req,res)=>{
-     res.redirect('polls');
+     res.redirect('/polls');
 })
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(3000 || process.env.PORT, () => {
     console.log(`We are LIVE!`);
 });
